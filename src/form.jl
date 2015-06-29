@@ -192,7 +192,7 @@ end
 
 
 function CirclePrimitive(x, y, r)
-    return CirclePrimitive((x, y), x_measure(r))
+    return CirclePrimitive((x_measure(x), y_measure(y)), x_measure(r))
 end
 
 
