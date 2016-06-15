@@ -30,20 +30,29 @@ export compose, compose!, Context, UnitBox, AbsoluteBoundingBox, Rotation, Mirro
 
 
 function isinstalled(pkg, ge=v"0.0.0-")
+printboot("testing if $pkg is installed 1")
     try
         # Pkg.installed might throw an error,
         # we need to account for it to be able to precompile
+printboot("testing if $pkg is installed 2")
         ver = Pkg.installed(pkg)
+printboot("ver is $ver")
         ver == nothing && try
+printboot("testing if $pkg is installed 3")
             # Assume the version is new enough if the package is in LOAD_PATH
             ex = Expr(:import, symbol(pkg))
+printboot("testing if $pkg is installed 4")
             @eval $ex
+printboot("testing if $pkg is installed 5")
             return true
         catch
+printboot("testing if $pkg is installed 6")
             return false
         end
+printboot("testing if $pkg is installed 7")
         return ver >= ge
     catch
+printboot("testing if $pkg is installed 8")
         return false
     end
 end
@@ -171,10 +180,16 @@ macro missing_cairo_error(backend)
     string(msg1, msg2)
 end
 
-if isinstalled("Cairo")
+printboot(x) = ccall(:jl_, Void, (Any,), x)
+printboot("about to test if Cairo is installed")
+if true #isinstalled("Cairo")
+printboot("Cairo is installed 1")
     include("cairo_backends.jl")
+printboot("Cairo is installed 2")
     include("immerse_backend.jl")
+printboot("Cairo is installed 3")
 else
+printboot("Cairo is not installed")
     global PNG
     global PS
     global PDF
